@@ -1,21 +1,22 @@
 import React from 'react';
 import { createFastboard, FastboardApp, Fastboard } from '@netless/fastboard-react';
 
-const SDK_TOKEN = process.env.SDK_TOKEN;
-const REGION = process.env.REGION; // "cn-hz" | "us-sv" | "sg" | "in-mum" | "gb-lon"
-const APP_IDENTITY = process.env.APP_IDENTITY;
+// const SDK_TOKEN = process.env.SDK_TOKEN;
+// const REGION = process.env.REGION; // "cn-hz" | "us-sv" | "sg" | "in-mum" | "gb-lon"
+// const APP_IDENTITY = process.env.APP_IDENTITY;
 
 
 type FastBoardComponentProps = {
-  roomId: string;
+  uuid: string;
   userId: string;
   roomToken: string;
+  isWritable: boolean;
 };
 
 type FastboardAppType = typeof FastboardApp;
 
 export function FastboardComponent(props: FastBoardComponentProps) {
-  const { roomId, userId, roomToken } = props;
+  const { uuid, userId, roomToken, isWritable } = props;
 
   // can be used via hook avoiding this for now
   /*  const fastboard = useFastboard(() => ({
@@ -25,7 +26,7 @@ export function FastboardComponent(props: FastBoardComponentProps) {
     },
     joinRoom: {
       uid: userId,
-      uuid: roomId,
+      uuid: uuid,
       roomToken: roomToken,
     },
   })); */
@@ -57,8 +58,9 @@ export function FastboardComponent(props: FastBoardComponentProps) {
       },
       joinRoom: {
         uid: userId,
-        uuid: roomId,
+        uuid: uuid,
         roomToken: roomToken,
+        isWritable: isWritable,
       },
     }).then((app: any) => {
       // save the app instance to outer "app", also hold it by itself
